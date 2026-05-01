@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question Paper</title>
+</head>
+<body>
+
+  <h1 style="text-align: center;">Question Paper</h1>
+  <h2 style="text-align: center;">Subject - {{subject.name}}</h2>
+
+  <hr>
+
+  <h3>Section A (5 Marks)</h3>
+  <ol>
+      {% for q in short_questions %}
+          <li>{{ q.text }}</li>
+      {%empty %}
+          <li>No short questions available.</li>
+      {% endfor %}
+  </ol>
+
+  <h3>Section B (10 Marks)</h3>
+  <ol>
+      {% for q in long_questions %}
+          <li>{{ q.text }}</li>
+      {%empty %}
+          <li>No long questions available.</li>
+      {% endfor %}
+  </ol>
+
+</body>
+</html>
