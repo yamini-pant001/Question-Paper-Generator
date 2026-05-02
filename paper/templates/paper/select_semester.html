@@ -1,0 +1,7 @@
+<h2>Select Semester</h2>
+
+<form method="POST" action="/subject/">
+    {% csrf_token %}
+    <input type="number" name="semester" placeholder="Enter Semester">
+    <button type="submit">Next</button>
+</form>

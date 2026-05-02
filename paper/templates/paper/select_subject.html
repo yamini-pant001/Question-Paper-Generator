@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Select Subject</title>
-</head>
-<body>
-    <h2>Select Subject</h2>
+<h2>Select Subject</h2>
 
-    <form method="POST">
-        {% csrf_token %}
-        
-        <select name="subject">
-            {% for subject in subjects %}
-                <option value="{{ subject.id }}">{{ subject.name }}</option>
-            {% endfor %}
-        </select>
+<form method="POST" action="/paper/">
+    {% csrf_token %}
 
-        <input type ="number" name="num_short" placeholder="Number of short questions" required>
+    <input type="hidden" name="semester" value="{{ semester }}">
 
-        <br><br>
+    <select name="subject">
+        {% for subject in subjects %}
+            <option value="{{ subject.id }}">{{ subject.name }}</option>
+        {% endfor %}
+    </select>
 
-        <input type ="number" name="num_long" placeholder="Number of long questions">
-        <button type="submit">Generate Paper</button>   
-    </form>
-</body>
-</html>
+    <br><br>
+
+    <input type="number" name="num_short" placeholder="5 mark questions">
+    <input type="number" name="num_long" placeholder="10 mark questions">
+
+    <br><br>
+
+    <button type="submit">Generate Paper</button>
+</form>
