@@ -2,32 +2,85 @@
 <html>
 <head>
     <title>Question Paper</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f4f6f9;
+        }
+
+        .paper-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            font-weight: bold;
+            border-left: 5px solid #0d6efd;
+            padding-left: 10px;
+        }
+
+        .question-list li {
+            margin-bottom: 8px;
+        }
+
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
+
 <body>
 
-  <h1 style="text-align: center;">Question Paper</h1>
-  <h2 style="text-align: center;">BCA Semester - {{ subject.semester }}</h2>
-  <h2 style="text-align: center;">Subject - {{subject.name}}</h2>
+<div class="paper-container">
 
-  <hr>
+    <div class="top-actions">
+        <button onclick="window.location.href='/'" class="btn btn-outline-secondary">New Paper</button>
+        <button onclick="window.print()" class="btn btn-primary">Print</button>
+    </div>
 
-  <h3>Section A (5 Marks)</h3>
-  <ol>
-      {% for q in short_questions %}
-          <li>{{ q.text }}</li>
-      {%empty %}
-          <li>No short questions available.</li>
-      {% endfor %}
-  </ol>
+    <div class="header">
+        <h2>Question Paper</h2>
+        <h5 class="text-muted">Subject: {{ subject.name }}</h5>
+    </div>
 
-  <h3>Section B (10 Marks)</h3>
-  <ol>
-      {% for q in long_questions %}
-          <li>{{ q.text }}</li>
-      {%empty %}
-          <li>No long questions available.</li>
-      {% endfor %}
-  </ol>
+    <!-- Section A -->
+    <div>
+        <h5 class="section-title">Section A (5 Marks)</h5>
+        <ol class="question-list">
+            {% for q in short_questions %}
+                <li>{{ q.text }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    <!-- Section B -->
+    <div>
+        <h5 class="section-title">Section B (10 Marks)</h5>
+        <ol class="question-list">
+            {% for q in long_questions %}
+                <li>{{ q.text }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+</div>
 
 </body>
 </html>
