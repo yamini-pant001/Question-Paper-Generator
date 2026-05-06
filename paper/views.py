@@ -3,16 +3,20 @@ import random
 from django.shortcuts import render
 from .models import question, subject
 
+from django.contrib.auth.decorators import login_required  
 
+@login_required
 def upload_questions(request):
      print("view called")  # Debugging line to check if the view is being accessed
      if request.method == 'POST':
           
-          file = request.FILES['file']
+          file = request.FILES.get('file')
           if not file:
                  return render(request, 'paper/upload.html', {'msg': 'No file uploaded.'})
           decoded_file = file.read().decode('latin-1').splitlines()   
           reader = csv.DictReader(decoded_file)
+
+          count = 0
 
 
           for row in reader:
@@ -24,6 +28,8 @@ def upload_questions(request):
                         marks=row['marks'],
                         subject=sub[0]
                     )
+                 
+                 count += 1
           return render(request, 'paper/upload.html',{'msg':'Questions uploaded successfully!'})
      return render(request, 'paper/upload.html')
                  
