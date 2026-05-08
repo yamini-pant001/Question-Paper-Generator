@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Register · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <p class="eyebrow">Student account</p>
+    <h1>Create account</h1>
+    <!-- Registration uses a small form so students can save their result history. -->
+    <form method="post" class="form-card">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+</section>
+{% endblock %}

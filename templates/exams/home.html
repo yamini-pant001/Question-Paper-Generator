@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Home · MCQ Portal{% endblock %}
+
+{% block content %}
+<!-- Hero section introduces the portal and sends students into the semester flow. -->
+<section class="hero-section">
+    <div class="hero-content">
+        <p class="eyebrow">Semester-wise online MCQ examination portal</p>
+        <h1>Interactive tests with instant results.</h1>
+        <p class="hero-text">
+            Select a semester, choose your subject, answer every MCQ on one clean page, and see your score immediately after submission.
+        </p>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="{% url 'select_semester' %}">Start Test</a>
+            <a class="btn btn-secondary" href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+        </div>
+    </div>
+    <div class="hero-panel glass-card">
+        <p class="panel-label">Live Portal Flow</p>
+        <div class="flow-step active">1. Select Semester</div>
+        <div class="flow-step">2. Choose Subject</div>
+        <div class="flow-step">3. Attempt MCQs</div>
+        <div class="flow-step">4. View Result</div>
+    </div>
+</section>
+
+<!-- Semester cards give users a clear entry point without extra navigation. -->
+<section class="page-section">
+    <div class="section-heading">
+        <p class="eyebrow">Available semesters</p>
+        <h2>Choose where to begin</h2>
+    </div>
+    <div class="card-grid">
+        {% for semester in semesters %}
+            <a class="info-card" href="{% url 'select_subject' semester.id %}">
+                <span class="card-number">{{ forloop.counter|stringformat:"02d" }}</span>
+                <h3>{{ semester.semester_name }}</h3>
+                <p>{{ semester.subject_count }} subjects · {{ semester.question_count }} questions</p>
+            </a>
+        {% empty %}
+            <div class="empty-state">No semesters added yet. Add semesters from Django admin.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}My Results · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="page-hero compact">
+    <p class="eyebrow">Student dashboard</p>
+    <h1>My Result History</h1>
+    <p>Your latest submitted tests appear here.</p>
+</section>
+
+<section class="page-section">
+    <div class="answer-list">
+        {% for result in results %}
+            <article class="answer-card">
+                <div class="question-header">
+                    <span>{{ result.subject.subject_name }}</span>
+                    <small>{{ result.created_at|date:"d M Y" }}</small>
+                </div>
+                <p>{{ result.semester.semester_name }} · {{ result.correct_answers }}/{{ result.total_questions }} · {{ result.percentage }}%</p>
+                <a class="inline-link" href="{% url 'show_result' result.id %}">View details</a>
+            </article>
+        {% empty %}
+            <div class="empty-state">You have not submitted any tests yet.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

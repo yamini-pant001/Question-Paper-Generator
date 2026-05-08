@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Result · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="result-hero">
+    <p class="eyebrow">{{ result.semester.semester_name }} · {{ result.subject.subject_name }}</p>
+    <h1>{{ result.percentage }}%</h1>
+    <p>{{ message }}</p>
+    <span class="status-badge {% if result.passed %}pass{% else %}fail{% endif %}">
+        {% if result.passed %}Pass{% else %}Fail{% endif %}
+    </span>
+</section>
+
+<!-- Result calculation comes from the submit_test view and is saved in TestResult. -->
+<section class="stats-grid">
+    <div class="stat-card">
+        <span>Total Questions</span>
+        <strong>{{ result.total_questions }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Correct Answers</span>
+        <strong>{{ result.correct_answers }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Wrong Answers</span>
+        <strong>{{ result.wrong_answers }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Percentage</span>
+        <strong>{{ result.percentage }}%</strong>
+    </div>
+</section>
+
+<!-- Answer review highlights correct and wrong submissions for learning. -->
+<section class="page-section">
+    <div class="section-heading">
+        <p class="eyebrow">Answer Review</p>
+        <h2>Check every question</h2>
+    </div>
+    <div class="answer-list">
+        {% for item in answer_details %}
+            <article class="answer-card {% if item.answer.is_correct %}correct{% else %}wrong{% endif %}">
+                <div class="question-header">
+                    <span>Question {{ forloop.counter }}</span>
+                    <small>{% if item.answer.is_correct %}Correct{% else %}Needs revision{% endif %}</small>
+                </div>
+                <h3>{{ item.answer.question.question_text }}</h3>
+                <p>Your answer: <strong>{{ item.answer.selected_answer }}. {{ item.selected_text }}</strong></p>
+                <p>Correct answer: <strong>{{ item.answer.correct_answer }}. {{ item.correct_text }}</strong></p>
+            </article>
+        {% endfor %}
+    </div>
+    <div class="center-actions">
+        <a class="btn btn-primary" href="{% url 'start_test' result.semester.id result.subject.id %}">Retake Test</a>
+        <a class="btn btn-secondary" href="{% url 'select_semester' %}">Choose Another Test</a>
+    </div>
+</section>
+{% endblock %}

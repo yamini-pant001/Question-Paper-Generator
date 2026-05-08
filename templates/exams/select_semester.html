@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Select Semester · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="page-hero compact">
+    <p class="eyebrow">Step 1</p>
+    <h1>Select Semester</h1>
+    <p>Each semester card opens the subject list connected to that semester.</p>
+</section>
+
+<!-- Card-based UI keeps semester selection simple on desktop and mobile. -->
+<section class="page-section">
+    <div class="card-grid">
+        {% for semester in semesters %}
+            <a class="info-card" href="{% url 'select_subject' semester.id %}">
+                <span class="card-number">{{ forloop.counter|stringformat:"02d" }}</span>
+                <h3>{{ semester.semester_name }}</h3>
+                <p>{{ semester.subject_count }} subjects · {{ semester.question_count }} questions</p>
+            </a>
+        {% empty %}
+            <div class="empty-state">No semesters are available. Please add them from Django admin.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

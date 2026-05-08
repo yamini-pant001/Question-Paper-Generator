@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Select Subject · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="page-hero compact">
+    <p class="eyebrow">Step 2 · {{ semester.semester_name }}</p>
+    <h1>Select Subject</h1>
+    <p>Pick a subject to start a randomized MCQ test.</p>
+</section>
+
+<!-- Subjects belong to the selected semester through the Subject model relation. -->
+<section class="page-section">
+    <div class="card-grid">
+        {% for subject in subjects %}
+            <a class="info-card" href="{% url 'start_test' semester.id subject.id %}">
+                <span class="card-number">{{ forloop.counter|stringformat:"02d" }}</span>
+                <h3>{{ subject.subject_name }}</h3>
+                <p>{{ subject.question_count }} MCQ questions available</p>
+            </a>
+        {% empty %}
+            <div class="empty-state">No subjects are added for {{ semester.semester_name }} yet.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

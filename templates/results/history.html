@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Result History · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="page-hero compact">
+    <p class="eyebrow">Results</p>
+    <h1>Previous Tests</h1>
+    <p>Review your saved test attempts.</p>
+</section>
+
+<section class="page-section">
+    <div class="answer-list">
+        {% for result in results %}
+            <article class="answer-card">
+                <div class="question-header">
+                    <span>{{ result.subject.subject_name }}</span>
+                    <small>{% if result.passed %}Pass{% else %}Fail{% endif %}</small>
+                </div>
+                <p>{{ result.correct_answers }}/{{ result.total_questions }} correct · {{ result.percentage }}%</p>
+                <a class="inline-link" href="{% url 'show_result' result.id %}">Open result</a>
+            </article>
+        {% empty %}
+            <div class="empty-state">No result history found.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

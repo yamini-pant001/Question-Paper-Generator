@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="admin-layout">
+    <!-- Sidebar gives admins quick access to the official Django admin screens. -->
+    <aside class="admin-sidebar">
+        <h1>Admin</h1>
+        <a href="{% url 'admin:index' %}">Django Admin</a>
+        <a href="{% url 'admin:exams_semester_add' %}">Add Semester</a>
+        <a href="{% url 'admin:exams_subject_add' %}">Add Subject</a>
+        <a href="{% url 'admin:exams_question_add' %}">Add Question</a>
+    </aside>
+
+    <div class="admin-main">
+        <div class="section-heading">
+            <p class="eyebrow">Custom dashboard</p>
+            <h2>Question bank overview</h2>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card"><span>Semesters</span><strong>{{ semester_count }}</strong></div>
+            <div class="stat-card"><span>Subjects</span><strong>{{ subject_count }}</strong></div>
+            <div class="stat-card"><span>Questions</span><strong>{{ question_count }}</strong></div>
+            <div class="stat-card"><span>Results</span><strong>{{ result_count }}</strong></div>
+        </div>
+
+        <!-- Recent result table is read-only and helps admins monitor activity. -->
+        <div class="table-card">
+            <h3>Recent Results</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Subject</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in recent_results %}
+                        <tr>
+                            <td>{{ result.student|default:"Guest" }}</td>
+                            <td>{{ result.subject.subject_name }}</td>
+                            <td>{{ result.correct_answers }}/{{ result.total_questions }}</td>
+                            <td>{% if result.passed %}Pass{% else %}Fail{% endif %}</td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4">No tests submitted yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

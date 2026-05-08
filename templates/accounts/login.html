@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Login · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <p class="eyebrow">Student login</p>
+    <h1>Welcome back</h1>
+    <!-- Django LoginView validates username and password safely. -->
+    <form method="post" class="form-card">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</section>
+{% endblock %}

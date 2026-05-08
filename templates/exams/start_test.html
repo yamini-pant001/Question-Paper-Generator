@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ subject.subject_name }} Test · MCQ Portal{% endblock %}
+
+{% block content %}
+<section class="test-shell">
+    <!-- Sticky test bar shows timer and progress while students scroll through questions. -->
+    <div class="test-topbar">
+        <div>
+            <p class="eyebrow">{{ semester.semester_name }}</p>
+            <h1>{{ subject.subject_name }} Test</h1>
+        </div>
+        <div class="test-meta">
+            <span id="timer" data-minutes="{{ timer_minutes }}">{{ timer_minutes }}:00</span>
+            <span><strong id="answered-count">0</strong>/{{ total_questions }} answered</span>
+        </div>
+    </div>
+
+    <div class="progress-track" aria-label="Test progress">
+        <div id="progress-bar" class="progress-fill"></div>
+    </div>
+
+    <form class="test-form" method="post" action="{% url 'submit_test' semester.id subject.id %}" data-test-form data-total="{{ total_questions }}">
+        {% csrf_token %}
+        {% for question in questions %}
+            <!-- Each question card keeps the four radio options grouped by question id. -->
+            <article class="question-card" id="question-{{ forloop.counter }}">
+                <div class="question-header">
+                    <span>Question {{ forloop.counter }}</span>
+                    <small>Choose one answer</small>
+                </div>
+                <h2>{{ question.question_text }}</h2>
+                <label class="option-row">
+                    <input type="radio" name="question_{{ question.id }}" value="A">
+                    <span>A</span>{{ question.option_a }}
+                </label>
+                <label class="option-row">
+                    <input type="radio" name="question_{{ question.id }}" value="B">
+                    <span>B</span>{{ question.option_b }}
+                </label>
+                <label class="option-row">
+                    <input type="radio" name="question_{{ question.id }}" value="C">
+                    <span>C</span>{{ question.option_c }}
+                </label>
+                <label class="option-row">
+                    <input type="radio" name="question_{{ question.id }}" value="D">
+                    <span>D</span>{{ question.option_d }}
+                </label>
+            </article>
+        {% endfor %}
+
+        <div class="submit-panel">
+            <p>Review your answers before submitting. Empty submissions are blocked automatically.</p>
+            <button class="btn btn-primary" type="submit" data-submit-button>Submit Test</button>
+        </div>
+    </form>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/test.js' %}"></script>
+{% endblock %}
