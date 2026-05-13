@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from import_export.admin import ImportExportModelAdmin
 from .models import Question, Semester, Subject
 
 
@@ -9,7 +9,7 @@ admin.site.index_title = "Manage semesters, subjects, and questions"
 
 
 @admin.register(Semester)
-class SemesterAdmin(admin.ModelAdmin):
+class SemesterAdmin(ImportExportModelAdmin):
     """Admin setup for adding and editing semesters."""
 
     list_display = ("semester_name",)
@@ -17,7 +17,7 @@ class SemesterAdmin(admin.ModelAdmin):
 
 
 @admin.register(Subject)
-class SubjectAdmin(admin.ModelAdmin):
+class SubjectAdmin(ImportExportModelAdmin):
     """Admin setup for adding subjects under a semester."""
 
     list_display = ("subject_name", "semester")
@@ -26,7 +26,7 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 @admin.register(Question)
-class QuestionAdmin(admin.ModelAdmin):
+class QuestionAdmin(ImportExportModelAdmin):
     """Admin setup for managing MCQ questions and correct answers."""
 
     list_display = ("question_text", "semester", "subject", "correct_answer")

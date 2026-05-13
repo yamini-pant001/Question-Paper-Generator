@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Result | Simple MCQ Test{% endblock %}
+
+{% block content %}
+<!-- Result summary is calculated in submit_test() and saved in TestResult. -->
+<section class="result-card card">
+    <p class="small-title">Result for {{ result.test_user.name }}</p>
+    <h1>{{ result.final_score }}%</h1>
+    <p>{{ result.test_user.email }}</p>
+</section>
+
+<section class="stats">
+    <div class="card">
+        <span>Total Questions</span>
+        <strong>{{ result.total_questions }}</strong>
+    </div>
+    <div class="card correct">
+        <span>Correct Answers</span>
+        <strong>{{ result.correct_answers }}</strong>
+    </div>
+    <div class="card wrong">
+        <span>Wrong Answers</span>
+        <strong>{{ result.wrong_answers }}</strong>
+    </div>
+</section>
+
+<!-- Answer review helps the student understand mistakes. -->
+<section class="answer-list">
+    <h2>Answer Review</h2>
+    {% for item in answer_review %}
+        <article class="card answer-card {% if item.is_correct %}correct-border{% else %}wrong-border{% endif %}">
+            <p class="question-number">Question {{ forloop.counter }}</p>
+            <h3>{{ item.question.question_text }}</h3>
+            <p>Your Answer: <strong>{{ item.selected_answer }}. {{ item.selected_text }}</strong></p>
+            <p>Correct Answer: <strong>{{ item.correct_answer }}. {{ item.correct_text }}</strong></p>
+        </article>
+    {% endfor %}
+</section>
+
+<section class="submit-box">
+    <a class="button" href="{% url 'start_test' %}">Retake Test</a>
+</section>
+{% endblock %}
